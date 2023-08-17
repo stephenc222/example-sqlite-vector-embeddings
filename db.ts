@@ -6,7 +6,7 @@ const vssExtensionPathVSS = "./vss0.dylib"
 const DB_PATH = "./chat.sqlite"
 let db: Database
 
-// create or open the chatHistory.sqlite database
+// create or open the chat.sqlite database
 function openDatabase(): Promise<Database> {
   return new Promise((resolve, reject) => {
     const db = new Database(DB_PATH, OPEN_READWRITE | OPEN_CREATE, (err) => {
@@ -64,6 +64,7 @@ export async function setupDatabase(): Promise<Database> {
     )
   })
   return new Promise((resolve, reject) => {
+    // we are storing our vectors as TEXT in the "message_embedding" column
     db.run(
       `CREATE TABLE IF NOT EXISTS chatHistory (
         type TEXT,
@@ -134,7 +135,6 @@ export async function searchChatHistory(query: string) {
   })
 }
 
-// Insert into our chatHistory table
 export async function addToChatHistory(
   type: "user" | "ai",
   command: string,
@@ -148,6 +148,7 @@ export async function addToChatHistory(
     timestamp
   )
   return new Promise<void>(async (resolve, reject) => {
+    // Insert into our chatHistory table
     db.run(
       "INSERT INTO chatHistory (type, command, content, timestamp, message_embedding) VALUES (?, ?, ?, ?, ?)",
       [type, command, content, timestamp, messageEmbedding],
@@ -160,6 +161,7 @@ export async function addToChatHistory(
         }
 
         const lastRowId = this.lastID
+        // Insert into our vss_chatHistory virtual table, keeping the rowid values in sync with chatHistory
         db.run(
           "INSERT INTO vss_chatHistory(rowid, message_embedding) VALUES (?, ?)",
           [lastRowId, messageEmbedding],

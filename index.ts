@@ -12,6 +12,7 @@ async function main() {
   )
   await addToChatHistory("user", "SEARCH_WEB", "search for keanu reeves")
   const result = await searchChatHistory("my favorite actor")
+  // should log out a list of vectors sorted by relevance to the query "my favorite actor"
   console.log(result)
 }
 

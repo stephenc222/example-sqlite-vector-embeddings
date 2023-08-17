@@ -6,7 +6,9 @@ let model: use.UniversalSentenceEncoder
 
 async function createEmbedding(input: string) {
   const embedding = await model.embed(input)
+  // we need to get a serializable array from the output tensor
   const embeddingArray = await embedding.array()
+  // the first element of the array is the vector we want to store as a string in our database.
   return JSON.stringify(embeddingArray[0])
 }
 
