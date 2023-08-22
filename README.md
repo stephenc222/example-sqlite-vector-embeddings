@@ -1,3 +1,5 @@
+Check out [my blog post on sqlite vector embeddings](https://staging.stephencollins.tech/posts/how-to-use-sqLite-to-store-and-query-vector-embeddings) that explains this project!
+
 # Example Sqlite Vector Embeddings
 
 This example tutorial project demonstrates how to utilize TensorFlow.js (specifically Universal Sentence Encoder) and SQLite with the [sqlite-vss](https://github.com/asg017/sqlite-vss) vector extension to create, and search a chat history stored in SQLite.
